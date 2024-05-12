@@ -1,8 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import Register from './Pages/Register';
-import { StyleSheet } from 'react-native';
+import Settings from './Pages/Settings';
+import Dashboard from './Pages/Dashboard';
+import OneList from './Pages/OneList';
+
 import { ToastProvider } from 'react-native-toast-notifications'
+
+import { StyleSheet } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,8 +25,11 @@ const App = () => {
   return (
     <ToastProvider>
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="Register">
+        <Stack.Navigator initialRouteName="Dashboard">
           <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="OneList" component={OneList} />
         </Stack.Navigator>
       </NavigationContainer>
     </ToastProvider>
