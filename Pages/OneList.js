@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image, Pressable } from 'react-native';
 
 import { listData } from '../constants/staticData';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -23,15 +23,17 @@ const OneList = ({ route }) => {
         data && <SafeAreaView style={styles.container}>
             <Text style={styles.title}> {data.listName} list</Text>
             <ScrollView style={styles.list}>
-                <View>
-                    {
-                        data.list.map((item) => {
-                            return (
-                                <OneListItem listItem={item} key={item._id} />
-                            )
-                        })
-                    }
-                </View>
+                <Pressable style={styles.item} onPress={() => console.log('')}>
+                    <Image style={styles.stretch} source={require('../assets/add.png')} />
+                    <Text>Add a new item</Text>
+                </Pressable>
+                {
+                    data.list.map((item) => {
+                        return (
+                            <OneListItem listItem={item} key={item._id} />
+                        )
+                    })
+                }
             </ScrollView>
         </SafeAreaView>
     );
@@ -54,7 +56,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-    }
+        paddingTop: 10
+    },
+    item: {
+        backgroundColor: '#ebebeb',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        flexGrow: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        borderRadius: 25
+    },
+    stretch: {
+        height: 50,
+        width: 50,
+        marginRight: 20
+    },
 })
 
 export default OneList

@@ -9,6 +9,7 @@ import OneList from './Pages/OneList';
 import { ToastProvider } from 'react-native-toast-notifications'
 
 import { StyleSheet } from 'react-native';
+import AddNewList from './Pages/AddNewList';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ const App = () => {
           <Stack.Screen name="Settings" component={Settings} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="OneList" component={OneList} />
+          <Stack.Screen name="AddNewList" component={AddNewList} />
         </Stack.Navigator>
       </NavigationContainer>
     </ToastProvider>
