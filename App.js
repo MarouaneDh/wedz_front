@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Register from './Pages/Register';
-import Login from './Pages/Login';
-import Settings from './Pages/Settings';
-import Dashboard from './Pages/Dashboard';
-import OneList from './Pages/OneList';
-import AddNewList from './Pages/AddNewList';
+import Register from './Screens/Register';
+import Login from './Screens/Login';
+import Settings from './Screens/Settings';
+import Dashboard from './Screens/Dashboard';
+import OneList from './Screens/OneList';
+import AddNewList from './Screens/AddNewList';
 
 import { ToastProvider } from 'react-native-toast-notifications'
 
