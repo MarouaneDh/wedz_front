@@ -8,10 +8,12 @@ import Login from './Pages/Login';
 import Settings from './Pages/Settings';
 import Dashboard from './Pages/Dashboard';
 import OneList from './Pages/OneList';
+import AddNewList from './Pages/AddNewList';
 
 import { ToastProvider } from 'react-native-toast-notifications'
 
-import AddNewList from './Pages/AddNewList';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,26 +29,24 @@ const App = () => {
     },
   };
 
-  setTimeout(() => {
-    setToken('abc')
-  }, 3000);
-
   return (
     <ToastProvider>
       <NavigationContainer linking={linking}>
-        {
-          token ?
-            <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Dashboard">
-              <Stack.Screen name="Dashboard" component={Dashboard} />
-              <Stack.Screen name="Settings" component={Settings} />
-              <Stack.Screen name="OneList" component={OneList} />
-              <Stack.Screen name="AddNewList" component={AddNewList} />
-            </Stack.Navigator> :
-            <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Register" component={Register} />
-            </Stack.Navigator>
-        }
+        <Provider store={store}>
+          {
+            token ?
+              <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Dashboard">
+                <Stack.Screen name="Dashboard" component={Dashboard} />
+                <Stack.Screen name="Settings" component={Settings} />
+                <Stack.Screen name="OneList" component={OneList} />
+                <Stack.Screen name="AddNewList" component={AddNewList} />
+              </Stack.Navigator> :
+              <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Register" component={Register} />
+              </Stack.Navigator>
+          }
+        </Provider>
       </NavigationContainer>
     </ToastProvider>
   );

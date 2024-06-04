@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useToast } from 'react-native-toast-notifications';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { login } from '../redux/slices/auth/authAsyncThunk';
+
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 
 const Login = () => {
     const toast = useToast();
+    const dispatch = useDispatch();
+
+    const auth = useSelector((state) => state.auth.auth);
+
     const [loginData, setLoginData] = useState({
         email: '',
         password: ''
@@ -32,12 +40,15 @@ const Login = () => {
     }
 
     const loginPressHandler = () => {
-        if (allFullFields) {
-            showToast('success', 'Login successfully')
-        } else {
-            showToast('danger', 'Login failed')
-        }
+        dispatch(login({ email: "marouanedhambri@gmail.com", password: "12345678Aa*" }))
+        // if (allFullFields) {
+        //     showToast('success', 'Login successfully')
+        // } else {
+        //     showToast('danger', 'Login failed')
+        // }
     }
+
+    console.log(auth)
 
     return (
         <View style={styles.loginContainer}>
