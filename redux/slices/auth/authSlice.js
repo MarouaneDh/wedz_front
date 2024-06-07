@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { login } from './authAsyncThunk';
+import { removeAsyncStorageData } from '../../../helpers/storage';
 
 const initialState = {
     auth: {
@@ -9,6 +10,7 @@ const initialState = {
         data: null,
         isLoggedIn: false,
     },
+    user: null
 };
 
 export const authSlice = createSlice({
@@ -19,7 +21,7 @@ export const authSlice = createSlice({
             state.auth.data = null;
             state.auth.status = null;
             state.auth.isLoggedIn = false;
-            // removeAsyncStorageData('access_token');
+            removeAsyncStorageData('token');
         },
     },
     extraReducers: (builder) => {
@@ -34,6 +36,7 @@ export const authSlice = createSlice({
                 state.auth.isLoading = false;
                 state.auth.status = 'fulfilled'
                 state.auth.data = action.payload
+                state.auth.user = action.payload.user
                 state.auth.isLoggedIn = true;
             })
             .addCase(login.rejected, (state, action) => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
 import {
     SafeAreaView,
@@ -14,21 +15,31 @@ import {
 
 import ListItem from '../components/ListItem';
 import { listData } from '../constants/staticData';
+import { logout } from '../redux/slices/auth/authSlice';
 
 const Dashboard = ({ route }) => {
+    const dispatch = useDispatch()
     const navigation = useNavigation()
 
     const toAddNewList = () => {
         navigation.navigate('AddNewList')
     }
+
+    const logoutUser = () => {
+        dispatch(logout())
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Your List</Text>
+            <View style={styles.header}>
+                <Text style={styles.title}>Your List</Text>
+                <Text onPress={() => logoutUser()} style={styles.title}>logout</Text>
+            </View>
             <ScrollView>
                 <View style={styles.list}>
                     <Pressable onPress={() => toAddNewList()} style={styles.item}>
                         <Image style={styles.stretch} source={require('../assets/add.png')} />
-                        <Text style={styles.title}>Add new list</Text>
+                        <Text style={styles.add}>Add new list</Text>
                     </Pressable>
                     {
                         listData.map((item) => {
@@ -49,6 +60,11 @@ const styles = StyleSheet.create({
         paddingTop: StatusBar.currentHeight || 0,
         backgroundColor: 'black',
         paddingHorizontal: 8,
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     title: {
         color: 'white',
@@ -82,6 +98,10 @@ const styles = StyleSheet.create({
         resizeMode: 'center',
     },
     title: {
+        fontSize: 18,
+        color: 'white'
+    },
+    add: {
         fontSize: 18,
         color: 'black'
     },

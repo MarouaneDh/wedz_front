@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { login } from '../redux/slices/auth/authAsyncThunk';
 
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { storeData } from '../helpers/storage';
 
 const Login = () => {
     const toast = useToast();
@@ -60,6 +61,8 @@ const Login = () => {
     useEffect(() => {
         if (auth?.data) {
             showToast('success', auth?.data?.msg)
+            console.log(auth.data)
+            storeData("token", auth.data.token)
         }
         if (auth?.error) {
             showToast('danger', auth?.error?.errors[0]?.msg)
