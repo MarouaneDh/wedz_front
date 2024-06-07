@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useToast } from 'react-native-toast-notifications';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import { login } from '../redux/slices/auth/authAsyncThunk';
 
@@ -8,6 +9,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 
 const Login = () => {
     const toast = useToast();
+    const navigation = useNavigation()
     const dispatch = useDispatch();
 
     const auth = useSelector((state) => state.auth.auth);
@@ -19,6 +21,13 @@ const Login = () => {
 
     const allFullFields = loginData.email !== '' &&
         loginData.password !== ''
+
+    const allEmptyFields = loginData.email === '' &&
+        loginData.password === ''
+
+    const toRegister = () => {
+        navigation.navigate('Register')
+    }
 
     const inputChangeHandler = (e, name) => {
         setLoginData((initialState) => (
@@ -40,27 +49,35 @@ const Login = () => {
     }
 
     const loginPressHandler = () => {
-        dispatch(login({ email: "marouanedhambri@gmail.com", password: "12345678Aa*" }))
-        // if (allFullFields) {
-        //     showToast('success', 'Login successfully')
-        // } else {
-        //     showToast('danger', 'Login failed')
-        // }
+        if (allFullFields) {
+            dispatch(login({ email: loginData.email, password: loginData.password }))
+        }
+        if (allEmptyFields) {
+            showToast('warning', "Please type your creadantials")
+        }
     }
 
-    console.log(auth)
+    useEffect(() => {
+        if (auth?.data) {
+            showToast('success', auth?.data?.msg)
+        }
+        if (auth?.error) {
+            showToast('danger', auth?.error?.errors[0]?.msg)
+        }
+    }, [auth])
 
     return (
         <View style={styles.loginContainer}>
+            <Text style={styles.title}>Login</Text>
             <View style={styles.inputContainer}>
                 <View style={styles.oneInput}>
-                    <Text style={styles.text}>First name</Text>
+                    <Text style={styles.text}>Email</Text>
                     <TextInput
                         placeholderTextColor='#919191'
-                        placeholder="Type your first name"
+                        placeholder="Type your email"
                         style={styles.input}
-                        textContentType='givenName'
-                        onChangeText={(e) => inputChangeHandler(e, 'firstName')}
+                        textContentType='emailAddress'
+                        onChangeText={(e) => inputChangeHandler(e, 'email')}
                         value={loginData.email}
                     />
                 </View>
@@ -79,6 +96,7 @@ const Login = () => {
                 <Pressable style={styles.button} onPress={loginPressHandler}>
                     <Text style={styles.buttonText}>Login</Text>
                 </Pressable>
+                <Text style={styles.text}>You don't have an account? <Text onPress={() => toRegister()} style={styles.link}>register here</Text></Text>
             </View>
         </View>
     )
@@ -88,10 +106,17 @@ export default Login
 
 const styles = StyleSheet.create({
     loginContainer: {
-        backgroundColor: '#50006496',
+        backgroundColor: '#000',
         height: '100%',
         display: 'flex',
-        justifyContent: 'space-evenly'
+        justifyContent: 'center'
+    },
+    title: {
+        color: 'white',
+        fontSize: 30,
+        alignSelf: 'center',
+        marginBottom: 40,
+        textTransform: 'uppercase'
     },
     inputContainer: {
         width: "100%",
@@ -110,7 +135,7 @@ const styles = StyleSheet.create({
         width: "90%",
         borderRadius: 10,
         marginTop: 3,
-        backgroundColor: '#8702a875',
+        backgroundColor: '#000',
         fontSize: 14,
         color: '#fff',
     },
@@ -119,19 +144,23 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     button: {
-        backgroundColor: '#8702a8',
+        backgroundColor: '#000',
         padding: 10,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#fff',
         marginTop: 10,
         width: '90%',
-        marginTop: 20
+        marginTop: 20,
+        marginBottom: 20
     },
     buttonText: {
         textAlign: 'center',
         color: '#fff',
         fontSize: 18,
         fontWeight: '800'
+    },
+    link: {
+        color: "#54cdfd"
     }
 });

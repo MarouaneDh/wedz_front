@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useToast } from "react-native-toast-notifications";
 
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 
 const Register = ({ route }) => {
     const toast = useToast();
+    const navigation = useNavigation()
     // const { param1, param2 } = route.params || {};
     const [registerationData, setRegisterationData] = useState({
         role: 'husband',
@@ -27,13 +29,17 @@ const Register = ({ route }) => {
         ))
     }
 
+    const toLogin = () => {
+        navigation.navigate('Login')
+    }
+
     const showToast = (type, message) => {
         toast.show(message, {
             type: type,
             placement: "bottom",
             duration: 3000,
-            offset: 30,
-            animationType: "slide-in",
+            // offset: 30,
+            // animationType: "slide-in",
         });
     }
 
@@ -63,8 +69,9 @@ const Register = ({ route }) => {
     }, [confirmPass, registerationData.password])
 
     return (
-        <ScrollView style={styles.registrationContainer}>
-            <View style={styles.inputContainer}>
+        <View style={styles.registrationContainer}>
+            <Text style={styles.title}>Register</Text>
+            <ScrollView style={styles.inputContainer}>
                 <View style={styles.oneInput}>
                     <Text style={styles.text}>First name</Text>
                     <TextInput
@@ -137,15 +144,26 @@ const Register = ({ route }) => {
                 <Pressable style={styles.button} onPress={registerPressHandler}>
                     <Text style={styles.buttonText}>Register</Text>
                 </Pressable>
-            </View>
-        </ScrollView>
+                <Text style={styles.text}>You already have an account? <Text onPress={() => toLogin()} style={styles.link}>login here</Text></Text>
+            </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     registrationContainer: {
-        backgroundColor: '#50006496',
+        backgroundColor: '#000',
         height: '100%',
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    title: {
+        color: 'white',
+        fontSize: 25,
+        alignSelf: 'center',
+        marginBottom: 5,
+        marginTop: 5,
+        textTransform: 'uppercase'
     },
     inputContainer: {
         width: "100%",
@@ -164,7 +182,7 @@ const styles = StyleSheet.create({
         width: "90%",
         borderRadius: 10,
         marginTop: 3,
-        backgroundColor: '#8702a875',
+        backgroundColor: '#000',
         fontSize: 14,
         color: '#fff',
     },
@@ -173,13 +191,14 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     button: {
-        backgroundColor: '#8702a8',
+        backgroundColor: '#000',
         padding: 10,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#fff',
         marginTop: 10,
         width: '90%',
+        marginTop: 20,
         marginBottom: 20
     },
     buttonText: {
@@ -187,6 +206,9 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: '800'
+    },
+    link: {
+        color: "#54cdfd"
     }
 });
 
