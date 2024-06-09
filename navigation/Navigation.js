@@ -24,9 +24,8 @@ const Navigation = () => {
     })
   }, [auth])
 
-
   return (
-    token ?
+    token || auth?.data?.token ?
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Dashboard">
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Settings" component={Settings} />

@@ -5,8 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import { login } from '../redux/slices/auth/authAsyncThunk';
 
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import { storeData } from '../helpers/storage';
+
+import globalStyle from '../styles/styles';
 
 const Login = () => {
     const toast = useToast();
@@ -59,9 +61,8 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (auth?.data) {
+        if (auth?.data?.token) {
             showToast('success', auth?.data?.msg)
-            console.log(auth.data)
             storeData("token", auth.data.token)
         }
         if (auth?.error) {
@@ -70,11 +71,10 @@ const Login = () => {
     }, [auth])
 
     return (
-        <View style={styles.loginContainer}>
+        <View style={globalStyle.container}>
             <Text style={styles.title}>Login</Text>
             <View style={styles.inputContainer}>
                 <View style={styles.oneInput}>
-                    <Text style={styles.text}>Email</Text>
                     <TextInput
                         placeholderTextColor='#919191'
                         placeholder="Type your email"
@@ -85,7 +85,6 @@ const Login = () => {
                     />
                 </View>
                 <View style={styles.oneInput}>
-                    <Text style={styles.text}>Password</Text>
                     <TextInput
                         placeholderTextColor='#919191'
                         placeholder="Type your password"
@@ -97,10 +96,11 @@ const Login = () => {
                     />
                 </View>
                 <Pressable style={styles.button} onPress={loginPressHandler}>
+                    {auth.isLoading && <ActivityIndicator color="#fff" size={20} />}
                     <Text style={styles.buttonText}>Login</Text>
                 </Pressable>
-                <Text style={styles.text}>You don't have an account? <Text onPress={() => toRegister()} style={styles.link}>register here</Text></Text>
             </View>
+            <Text style={globalStyle.text}>You don't have an account? <Text onPress={() => toRegister()} style={globalStyle.link}>register here</Text></Text>
         </View>
     )
 }
@@ -142,10 +142,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#fff',
     },
-    text: {
-        color: '#fff',
-        fontWeight: '600'
-    },
     button: {
         backgroundColor: '#000',
         padding: 10,
@@ -155,15 +151,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: '90%',
         marginTop: 20,
-        marginBottom: 20
+        marginBottom: 20,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     buttonText: {
         textAlign: 'center',
         color: '#fff',
         fontSize: 18,
-        fontWeight: '800'
+        fontWeight: '800',
+        marginLeft: 10
     },
-    link: {
-        color: "#54cdfd"
-    }
 });

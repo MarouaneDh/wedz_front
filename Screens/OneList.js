@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image, Pressable } fro
 import { listData } from '../constants/staticData';
 import { ScrollView } from 'react-native-gesture-handler';
 import OneListItem from '../components/OneListItem';
+import globalStyle from '../styles/styles';
 
 const OneList = ({ route }) => {
     const [data, setData] = useState(null)
@@ -20,7 +21,7 @@ const OneList = ({ route }) => {
     }, [listId])
 
     return (
-        data && <SafeAreaView style={styles.container}>
+        data && <SafeAreaView style={globalStyle.container}>
             <Text style={styles.title}> {data.listName} list</Text>
             <ScrollView style={styles.list}>
                 <Pressable style={styles.item} onPress={() => console.log('')}>
@@ -40,11 +41,6 @@ const OneList = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: StatusBar.currentHeight || 0,
-        backgroundColor: 'black',
-    },
     title: {
         color: 'white',
         alignSelf: 'center',

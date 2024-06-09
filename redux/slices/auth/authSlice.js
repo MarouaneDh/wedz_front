@@ -10,7 +10,6 @@ const initialState = {
         data: null,
         isLoggedIn: false,
     },
-    user: null
 };
 
 export const authSlice = createSlice({
@@ -36,7 +35,6 @@ export const authSlice = createSlice({
                 state.auth.isLoading = false;
                 state.auth.status = 'fulfilled'
                 state.auth.data = action.payload
-                state.auth.user = action.payload.user
                 state.auth.isLoggedIn = true;
             })
             .addCase(login.rejected, (state, action) => {

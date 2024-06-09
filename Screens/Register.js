@@ -3,6 +3,7 @@ import { useToast } from "react-native-toast-notifications";
 
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import globalStyle from '../styles/styles';
 
 const Register = ({ route }) => {
     const toast = useToast();
@@ -69,7 +70,7 @@ const Register = ({ route }) => {
     }, [confirmPass, registerationData.password])
 
     return (
-        <View style={styles.registrationContainer}>
+        <View style={globalStyle.container}>
             <Text style={styles.title}>Register</Text>
             <ScrollView style={styles.inputContainer}>
                 <View style={styles.oneInput}>
@@ -144,19 +145,13 @@ const Register = ({ route }) => {
                 <Pressable style={styles.button} onPress={registerPressHandler}>
                     <Text style={styles.buttonText}>Register</Text>
                 </Pressable>
-                <Text style={styles.text}>You already have an account? <Text onPress={() => toLogin()} style={styles.link}>login here</Text></Text>
             </ScrollView>
+            <Text style={globalStyle.text}>You already have an account? <Text onPress={() => toLogin()} style={globalStyle.link}>login here</Text></Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    registrationContainer: {
-        backgroundColor: '#000',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center'
-    },
     title: {
         color: 'white',
         fontSize: 25,
