@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image, Pressable } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, StyleSheet, SafeAreaView, Image, Pressable } from 'react-native';
 
-import { listData } from '../constants/staticData';
 import { ScrollView } from 'react-native-gesture-handler';
 import OneListItem from '../components/OneListItem';
 import globalStyle from '../styles/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOneList } from '../redux/slices/list/listAsyncThunk';
 
 const OneList = ({ route }) => {
-    const [data, setData] = useState(null)
+    const dispatch = useDispatch()
+
+    const {list} = useSelector((state) => state.lists.oneList)
     const listId = route.params.listId
 
     const getList = () => {
-        setData(listData[0])
+        dispatch(getOneList(listId))
     }
 
     useEffect(() => {
@@ -21,15 +24,15 @@ const OneList = ({ route }) => {
     }, [listId])
 
     return (
-        data && <SafeAreaView style={globalStyle.container}>
-            <Text style={styles.title}> {data.listName} list</Text>
+        list?.list && <SafeAreaView style={globalStyle.container}>
+            <Text style={styles.title}> {list?.listName} list</Text>
             <ScrollView style={styles.list}>
                 <Pressable style={styles.item} onPress={() => console.log('')}>
                     <Image style={styles.stretch} source={require('../assets/add.png')} />
                     <Text>Add a new item</Text>
                 </Pressable>
                 {
-                    data.list.map((item) => {
+                    list?.list?.map((item) => {
                         return (
                             <OneListItem listItem={item} key={item._id} />
                         )

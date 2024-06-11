@@ -8,7 +8,7 @@ const OneListItem = ({ listItem }) => {
             <Image style={styles.stretch} source={require('../assets/default-image.png')} />
             <Text>{listItem.want}</Text>
             <Text>{
-                listItem.isBought ? " was bought" : " not yet bought"
+                listItem.isBought ? " was bought" : " not bought yet"
             }</Text>
         </Pressable>
     );

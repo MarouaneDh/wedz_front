@@ -14,13 +14,12 @@ import {
 } from 'react-native';
 
 import ListItem from '../components/ListItem';
-import { listData } from '../constants/staticData';
 import { logout } from '../redux/slices/auth/authSlice';
 import { getAllLists } from '../redux/slices/list/listAsyncThunk';
 
 import globalStyle from '../styles/styles';
 
-const Dashboard = ({ route }) => {
+const Dashboard = () => {
     const dispatch = useDispatch()
     const toast = useToast();
     const navigation = useNavigation()
@@ -48,8 +47,6 @@ const Dashboard = ({ route }) => {
         dispatch(getAllLists())
     }, [dispatch])
 
-    console.log(lists?.lists)
-
     return (
         <SafeAreaView style={globalStyle.container}>
             <View style={styles.header}>
@@ -64,6 +61,7 @@ const Dashboard = ({ route }) => {
                     </Pressable>
                     {
                         lists?.lists?.map((item) => {
+                            console.log(item)
                             return (
                                 <ListItem listId={item._id} listName={item.listName} listCategory={item.listCategory} key={item._id} />
                             )

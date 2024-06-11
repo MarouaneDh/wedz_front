@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllLists } from './listAsyncThunk';
+import { getAllLists, getOneList } from './listAsyncThunk';
 
 const initialState = {
     lists: {
@@ -8,6 +8,12 @@ const initialState = {
         error: null,
         lists: null,
     },
+    oneList: {
+        isLoading: false,
+        status: null,
+        error: null,
+        list: null,
+    }
 };
 
 export const listSlice = createSlice({
@@ -19,7 +25,7 @@ export const listSlice = createSlice({
             //get all lists
             .addCase(getAllLists.pending, (state) => {
                 state.lists.isLoading = true;
-                state.lists.status = null
+                state.lists.status = 'pending'
                 state.lists.error = null
             })
             .addCase(getAllLists.fulfilled, (state, action) => {
@@ -31,6 +37,23 @@ export const listSlice = createSlice({
                 state.lists.isLoading = false;
                 state.lists.status = 'rejected';
                 state.lists.error = action.payload;
+            })
+
+            //get one list
+            .addCase(getOneList.pending, (state) => {
+                state.oneList.isLoading = true;
+                state.oneList.status = 'pending'
+                state.oneList.error = null
+            })
+            .addCase(getOneList.fulfilled, (state, action) => {
+                state.oneList.isLoading = false;
+                state.oneList.status = 'fulfilled'
+                state.oneList.list = action.payload.response
+            })
+            .addCase(getOneList.rejected, (state, action) => {
+                state.oneList.isLoading = false;
+                state.oneList.status = 'rejected';
+                state.oneList.error = action.payload;
             })
     },
 });

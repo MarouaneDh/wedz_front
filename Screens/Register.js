@@ -3,12 +3,13 @@ import { useToast } from "react-native-toast-notifications";
 
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+
 import globalStyle from '../styles/styles';
 
 const Register = ({ route }) => {
     const toast = useToast();
     const navigation = useNavigation()
-    // const { param1, param2 } = route.params || {};
+    const { param1, param2 } = route.params || {};
     const [registerationData, setRegisterationData] = useState({
         role: 'husband',
         firstName: '',
