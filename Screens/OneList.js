@@ -6,6 +6,7 @@ import OneListItem from '../components/OneListItem';
 import globalStyle from '../styles/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOneList } from '../redux/slices/list/listAsyncThunk';
+import { resetOneListData } from '../redux/slices/list/listSlice';
 
 const OneList = ({ route }) => {
     const dispatch = useDispatch()
@@ -23,11 +24,13 @@ const OneList = ({ route }) => {
         }
     }, [listId])
 
+    useEffect( () => () => dispatch(resetOneListData()), [] );
+
     return (
         list?.list && <SafeAreaView style={globalStyle.container}>
-            <Text style={styles.title}> {list?.listName} list</Text>
+            <Text style={styles.title}>{list?.listName} ({list?.stat}%)</Text>
             <ScrollView style={styles.list}>
-                <Pressable style={styles.item} onPress={() => console.log('')}>
+            <Pressable style={styles.item} onPress={() => console.log('')}>
                     <Image style={styles.stretch} source={require('../assets/add.png')} />
                     <Text>Add a new item</Text>
                 </Pressable>
@@ -48,7 +51,8 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         marginBottom: 40,
-        fontSize: 20,
+        marginTop: 20,
+        fontSize: 25,
         fontWeight: '700'
     },
     list: {

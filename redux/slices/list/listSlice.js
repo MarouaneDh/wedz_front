@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllLists, getOneList } from './listAsyncThunk';
+import { addNewList, getAllLists, getOneList } from './listAsyncThunk';
 
 const initialState = {
     lists: {
@@ -19,7 +19,14 @@ const initialState = {
 export const listSlice = createSlice({
     name: 'lists',
     initialState,
-    reducers: {},
+    reducers: {
+        resetOneListData: (state) => {
+            state.oneList.list = null;
+            state.oneList.status = null;
+            state.oneList.error = null;
+            state.oneList.isLoading = false;
+        },
+    },
     extraReducers: (builder) => {
         builder
             //get all lists
@@ -55,7 +62,26 @@ export const listSlice = createSlice({
                 state.oneList.status = 'rejected';
                 state.oneList.error = action.payload;
             })
+
+            //add new list
+            .addCase(addNewList.pending, (state) => {
+                state.oneList.isLoading = true;
+                state.oneList.status = 'pending'
+                state.oneList.error = null
+            })
+            .addCase(addNewList.fulfilled, (state, action) => {
+                state.oneList.isLoading = false;
+                state.oneList.status = 'fulfilled'
+                state.oneList.list = action.payload.response
+            })
+            .addCase(addNewList.rejected, (state, action) => {
+                state.oneList.isLoading = false;
+                state.oneList.status = 'rejected';
+                state.oneList.error = action.payload;
+            })
     },
 });
+
+export const { resetOneListData } = listSlice.actions;
 
 export default listSlice.reducer;

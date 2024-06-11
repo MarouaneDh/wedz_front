@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { useToast } from 'react-native-toast-notifications';
 
 import {
     SafeAreaView,
@@ -18,10 +17,10 @@ import { logout } from '../redux/slices/auth/authSlice';
 import { getAllLists } from '../redux/slices/list/listAsyncThunk';
 
 import globalStyle from '../styles/styles';
+import { resetOneListData } from '../redux/slices/list/listSlice';
 
 const Dashboard = () => {
     const dispatch = useDispatch()
-    const toast = useToast();
     const navigation = useNavigation()
 
     const lists = useSelector((state) => state.lists.lists)
@@ -32,15 +31,6 @@ const Dashboard = () => {
 
     const logoutUser = () => {
         dispatch(logout())
-        setTimeout(() => {
-            toast.show("Logged out successfully", {
-                type: "success",
-                placement: "bottom",
-                duration: 3000,
-                offset: 30,
-                animationType: "slide-in",
-            });
-        }, 1000);
     }
 
     useEffect(() => {
@@ -61,7 +51,6 @@ const Dashboard = () => {
                     </Pressable>
                     {
                         lists?.lists?.map((item) => {
-                            console.log(item)
                             return (
                                 <ListItem listId={item._id} listName={item.listName} listCategory={item.listCategory} key={item._id} />
                             )
