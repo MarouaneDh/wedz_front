@@ -17,7 +17,6 @@ import { logout } from '../redux/slices/auth/authSlice';
 import { getAllLists } from '../redux/slices/list/listAsyncThunk';
 
 import globalStyle from '../styles/styles';
-import { resetOneListData } from '../redux/slices/list/listSlice';
 
 const Dashboard = () => {
     const dispatch = useDispatch()

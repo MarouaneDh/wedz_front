@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
-import { Text, StyleSheet, SafeAreaView, Image, Pressable } from 'react-native';
-
-import { ScrollView } from 'react-native-gesture-handler';
-import OneListItem from '../components/OneListItem';
-import globalStyle from '../styles/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+
+import { Text, StyleSheet, SafeAreaView, Image, Pressable } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+
+import OneListItem from '../components/OneListItem';
+
 import { getOneList } from '../redux/slices/list/listAsyncThunk';
 import { resetOneListData } from '../redux/slices/list/listSlice';
+import globalStyle from '../styles/styles';
 
 const OneList = ({ route }) => {
     const dispatch = useDispatch()
 
-    const {list} = useSelector((state) => state.lists.oneList)
+    const { list } = useSelector((state) => state.lists.oneList)
     const listId = route.params.listId
 
     const getList = () => {
@@ -24,13 +27,13 @@ const OneList = ({ route }) => {
         }
     }, [listId])
 
-    useEffect( () => () => dispatch(resetOneListData()), [] );
+    useEffect(() => () => dispatch(resetOneListData()), []);
 
     return (
         list?.list && <SafeAreaView style={globalStyle.container}>
             <Text style={styles.title}>{list?.listName} ({list?.stat}%)</Text>
             <ScrollView style={styles.list}>
-            <Pressable style={styles.item} onPress={() => console.log('')}>
+                <Pressable style={styles.item} onPress={() => console.log('')}>
                     <Image style={styles.stretch} source={require('../assets/add.png')} />
                     <Text>Add a new item</Text>
                 </Pressable>
