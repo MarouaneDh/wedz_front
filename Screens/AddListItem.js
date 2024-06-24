@@ -1,10 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import OneItemForm from '../components/OneItemForm';
 
-const AddListItem = () => {
+const AddListItem = ({ setModalVisible, list }) => {
     return (
         <View>
-            <Text>AddListItem</Text>
+            <View>
+                <Text>Adding new item to {list.listName} list</Text>
+                <Pressable onPress={() => setModalVisible(false)}>
+                    <Text>Close</Text>
+                </Pressable>
+            </View>
+            <ScrollView>
+                {
+                    list?.list?.map((item) => {
+                        return (
+                            <OneItemForm key={item._id} item={item} />
+                        )
+                    })
+                }
+            </ScrollView>
         </View>
     )
 }

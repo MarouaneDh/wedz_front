@@ -12,6 +12,7 @@ import {
     Image,
 } from 'react-native';
 
+import RefreshWrapper from '../helpers/RefreshWrapper';
 import ListItem from '../components/ListItem';
 import { logout } from '../redux/slices/auth/authSlice';
 import { getAllLists } from '../redux/slices/list/listAsyncThunk';
@@ -37,27 +38,29 @@ const Dashboard = () => {
     }, [dispatch])
 
     return (
-        <SafeAreaView style={globalStyle.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Your List</Text>
-                <Text onPress={() => logoutUser()} style={styles.title}>logout</Text>
-            </View>
-            <ScrollView>
-                <View style={styles.list}>
-                    <Pressable onPress={() => toAddNewList()} style={styles.item}>
-                        <Image style={styles.stretch} source={require('../assets/add.png')} />
-                        <Text style={styles.add}>Add new list</Text>
-                    </Pressable>
-                    {
-                        lists?.lists?.map((item) => {
-                            return (
-                                <ListItem listId={item._id} listName={item.listName} listCategory={item.listCategory} key={item._id} />
-                            )
-                        })
-                    }
+        <RefreshWrapper onRefresh={() => dispatch(getAllLists())}>
+            <SafeAreaView style={globalStyle.container}>
+                <View style={styles.header}>
+                    <Text style={styles.title}>Your List</Text>
+                    <Text onPress={() => logoutUser()} style={styles.title}>logout</Text>
                 </View>
-            </ScrollView>
-        </SafeAreaView>
+                <ScrollView>
+                    <View style={styles.list}>
+                        <Pressable onPress={() => toAddNewList()} style={styles.item}>
+                            <Image style={styles.stretch} source={require('../assets/add.png')} />
+                            <Text style={styles.add}>Add new list</Text>
+                        </Pressable>
+                        {
+                            lists?.lists?.map((item) => {
+                                return (
+                                    <ListItem listId={item._id} listName={item.listName} listCategory={item.listCategory} key={item._id} />
+                                )
+                            })
+                        }
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </RefreshWrapper>
     );
 };
 
