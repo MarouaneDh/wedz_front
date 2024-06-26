@@ -22,15 +22,15 @@ const OneItemForm = ({ item }) => {
 
     return (
         <View style={styles.itemContainer}>
-            <Text>Item name</Text>
+            <Text style={styles.label}>Item name</Text>
             <TextInput onChangeText={(e) => handleChange("item", e)} value={oneItems?.item} style={styles.input} />
             <View style={styles.numberInputsContainer}>
                 <View>
-                    <Text>Number of items to buy</Text>
+                    <Text style={styles.label}>Number of items to buy</Text>
                     <TextInput keyboardType='number-pad' onChangeText={(e) => handleChange("numberOfItems", e)} value={`${oneItems?.numberOfItems}`} style={styles.input} />
                 </View>
                 <View>
-                    <Text>Number of items bought</Text>
+                    <Text style={styles.label}>Number of items bought</Text>
                     <TextInput keyboardType='number-pad' onChangeText={(e) => handleChange("numberOfItemsBought", e)} value={`${oneItems?.numberOfItemsBought}`} style={styles.input} />
                 </View>
             </View>
@@ -39,7 +39,12 @@ const OneItemForm = ({ item }) => {
                     item.imageURLs.length !== 0 ?
                         item.imageURLs.map((img) => {
                             return (
-                                <Image key={Math.random()} style={styles.stretch} source={{ uri: img }} />
+                                <View>
+                                    <Image key={Math.random()} style={styles.stretch} source={{ uri: img }} />
+                                    <View style={styles.deletePicContainer}>
+                                        <Image style={styles.stretchDelete} source={require('../assets/delete.png')} />
+                                    </View>
+                                </View>
                             )
                         }) : <Text>No image</Text>
                 }
@@ -53,38 +58,64 @@ export default OneItemForm
 const styles = StyleSheet.create({
     itemContainer: {
         marginTop: 10,
-        marginLeft: 15
+        marginLeft: 15,
+        borderBottomWidth: 0.5,
+        marginRight: 35,
+        paddingBottom: 15,
+        borderColor: "#000000",
+        marginBottom: 10
     },
     input: {
         height: 50,
         borderWidth: 1,
         borderColor: '#818181',
         padding: 10,
-        width: "80%",
+        width: "100%",
         borderRadius: 10,
         marginTop: 5,
         backgroundColor: '#c2c2c258',
         fontSize: 14,
         color: '#000',
     },
+    label: {
+        color: '#000',
+        fontSize: 15
+    },
     numberInputsContainer: {
         display: 'flex',
         flexDirection: 'row',
         gap: 15,
         marginTop: 10,
-        borderBottomWidth: 0.5,
-        marginRight: 15,
-        paddingBottom: 15,
-        borderColor: "#000000"
     },
     itemImages: {
         display: 'flex',
         flexDirection: 'row',
-
     },
     stretch: {
-        height: 50,
-        width: 50,
-        marginRight: 20
+        height: 65,
+        width: 65,
+        marginRight: 20,
+        borderWidth: 1,
+        borderColor: '#000',
+        marginTop: 10,
+        borderRadius: 5
+    },
+    stretchDelete: {
+        height: 15,
+        width: 15,
+    },
+    deletePicContainer: {
+        backgroundColor: '#ebebeb',
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: '#000',
+        width: 22,
+        height: 22,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        right: 10,
+        top: 2
     },
 })

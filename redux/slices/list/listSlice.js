@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addNewList, getAllLists, getOneList } from './listAsyncThunk';
+import { addNewList, deleteList, getAllLists, getOneList } from './listAsyncThunk';
 
 const initialState = {
     lists: {
@@ -9,6 +9,12 @@ const initialState = {
         lists: null,
     },
     oneList: {
+        isLoading: false,
+        status: null,
+        error: null,
+        list: null,
+    },
+    deleteOneList: {
         isLoading: false,
         status: null,
         error: null,
@@ -25,6 +31,12 @@ export const listSlice = createSlice({
             state.oneList.status = null;
             state.oneList.error = null;
             state.oneList.isLoading = false;
+        },
+        resetOneDeleteListData: (state) => {
+            state.deleteOneList.list = null;
+            state.deleteOneList.status = null;
+            state.deleteOneList.error = null;
+            state.deleteOneList.isLoading = false;
         },
     },
     extraReducers: (builder) => {
@@ -79,9 +91,26 @@ export const listSlice = createSlice({
                 state.oneList.status = 'rejected';
                 state.oneList.error = action.payload;
             })
+
+            //delete one list
+            .addCase(deleteList.pending, (state) => {
+                state.deleteOneList.isLoading = true;
+                state.deleteOneList.status = 'pending'
+                state.deleteOneList.error = null
+            })
+            .addCase(deleteList.fulfilled, (state, action) => {
+                state.deleteOneList.isLoading = false;
+                state.deleteOneList.status = 'fulfilled'
+                state.deleteOneList.list = action.payload.response
+            })
+            .addCase(deleteList.rejected, (state, action) => {
+                state.deleteOneList.isLoading = false;
+                state.deleteOneList.status = 'rejected';
+                state.deleteOneList.error = action.payload;
+            })
     },
 });
 
-export const { resetOneListData } = listSlice.actions;
+export const { resetOneListData, resetOneDeleteListData } = listSlice.actions;
 
 export default listSlice.reducer;
